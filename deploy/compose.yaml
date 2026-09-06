@@ -1,0 +1,33 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    volumes:
+      - /home/aura/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:2
+    volumes:
+      - /home/aura/aura-stack/mosquitto/config:/mosquitto/config
+      - /home/aura/aura-stack/mosquitto/data:/mosquitto/data
+      - /home/aura/aura-stack/mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+    network_mode: host
+
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome:latest
+    volumes:
+      - /home/aura/aura-stack/esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    restart: unless-stopped
+    network_mode: host
